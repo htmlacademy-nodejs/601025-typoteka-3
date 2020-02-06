@@ -5,14 +5,14 @@ module.exports = {
   name: `--help`,
   run() {
     const text = `
-Программа запускает http-сервер и формирует файл с данными для API.
-
+Программа запускает http-сервер и формирует файл с данными для api.
     Гайд:
-    server &lt;command&gt;
-    Команды:
-    --version:            выводит номер версии
-    --help:               печатает этот текст
-    --generate &lt;count&gt;    формирует файл mocks.json`;
+      server <command>
+      Команды:
+      --version:            выводит номер версии
+      --help:               печатает этот текст
+      --generate <count>    формирует файл mocks.json
+    `;
 
     console.log(chalk.gray(text));
   }
