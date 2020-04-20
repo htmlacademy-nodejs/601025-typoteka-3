@@ -1,0 +1,14 @@
+doctype html
+html(lang='ru')
+  include ../common/head
+  body
+    .wrapper(class={
+      'wrapper--nobackground': user && user.role === 'author'
+    })
+      include ../common/header
+      +header(user)
+      block content
+    include ../common/footer
+    //script(src="/js/vendor.js")
+    //script(src="/js/main.js")
+    block scripts
