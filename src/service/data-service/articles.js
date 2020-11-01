@@ -9,8 +9,18 @@ class ArticlesService {
   }
 
   create(article) {
+    const dateOptions = {
+      year: `numeric`,
+      month: `numeric`,
+      day: `numeric`,
+      hour: `numeric`,
+      minute: `numeric`,
+      second: `numeric`
+    };
+    const createdDate = new Date().toLocaleDateString(`Ru-ru`, dateOptions);
     const newArticle = Object
-      .assign({id: nanoid(MAX_ID_LENGTH), comments: []}, article);
+      .assign({id: nanoid(MAX_ID_LENGTH), comments: [], createDate: createdDate,
+      }, article);
 
     this._articles.push(newArticle);
     return newArticle;

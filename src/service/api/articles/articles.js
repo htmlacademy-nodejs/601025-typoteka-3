@@ -1,10 +1,10 @@
 'use strict';
 
 const {Router} = require(`express`);
-const {HttpCode} = require(`../../constants`);
-const articleValidator = require(`../../service/middlewares/article-validator`);
-const articleExist = require(`../../service/middlewares/article-exists-validator`);
-const commentValidator = require(`../../service/middlewares/comment-validator`);
+const {HttpCode} = require(`../../../constants`);
+const articleValidator = require(`../../middlewares/article-validator`);
+const articleExist = require(`../../middlewares/article-exists-validator`);
+const commentValidator = require(`../../middlewares/comment-validator`);
 
 const route = new Router();
 
@@ -29,14 +29,14 @@ module.exports = (app, articlesService, commentService) => {
       .json(articles);
   });
 
-  route.post(`/`, articleValidator, (req, res) => {
+  route.post(`/`, articleValidator.create, (req, res) => {
     const article = articlesService.create(req.body);
 
     return res.status(HttpCode.CREATED)
       .json(article);
   });
 
-  route.put(`/:articleId`, articleValidator, (req, res) => {
+  route.put(`/:articleId`, articleValidator.update, (req, res) => {
     const {articleId} = req.params;
     const existArticle = articlesService.findOne(articleId);
 
@@ -66,11 +66,24 @@ module.exports = (app, articlesService, commentService) => {
 
   route.get(`/:articleId/comments`, articleExist(articlesService), (req, res) => {
     const {article} = res.locals;
-    console.log(article);
     const comments = commentService.findAll(article);
 
     res.status(HttpCode.OK)
       .json(comments);
+
+  });
+
+  route.get(`/:articleId/comments/:commentId`, articleExist(articlesService), (req, res) => {
+    const {article} = res.locals;
+    const {commentId} = req.params;
+    const comment = commentService.findOne(article, commentId);
+
+    if (!comment) {
+      return res.status(HttpCode.NOT_FOUND)
+        .send(`Not found`);
+    }
+    return res.status(HttpCode.OK)
+      .json(comment);
 
   });
 

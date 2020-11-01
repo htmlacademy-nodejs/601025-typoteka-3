@@ -10,7 +10,7 @@ class CommentsService {
     }, comment);
 
     article.comments.push(newComment);
-    return comment;
+    return newComment;
   }
 
   drop(article, commentId) {
@@ -29,6 +29,10 @@ class CommentsService {
 
   findAll(article) {
     return article.comments;
+  }
+
+  findOne(article, id) {
+    return article.comments.find((item) => item.id === id);
   }
 
 }
