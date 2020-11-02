@@ -1,10 +1,11 @@
 'use strict';
-const packageJsonFile = require('../../../package.json');
+const packageJsonFile = require(`../../../package.json`);
 
 module.exports = {
-  name: '--version',
+  name: `--version`,
   run() {
     const version = packageJsonFile.version;
-    console.info(version);
+    const logger = require(`./index`).apiServiceLogger;
+    logger.info(version);
   }
 };
